@@ -2,6 +2,8 @@
 
 A Spring Batch application demonstrating **multi-threaded partitioned data processing** with parallel execution across multiple threads using **Java 21**, **Spring Boot 4.1.0**, and **Spring Batch 6.0.4**.
 
+Dev.to article: https://dev.to/ykpraveen/building-distributed-data-processing-with-spring-batch-6-spring-boot-4-5hf8
+
 ## Project Overview
 
 - **Data Partitioning**: Splits large datasets into manageable chunks
