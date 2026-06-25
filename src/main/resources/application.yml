@@ -1,0 +1,97 @@
+spring:
+  application:
+    name: spring-batch-distributed
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/batch_db
+    driver-class-name: org.postgresql.Driver
+    username: batch_user
+    password: batch_password
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      jakarta:
+        persistence:
+          validation:
+            mode: none
+      hibernate:
+        format_sql: true
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
+        batch_versioned_data: true
+        generate_statistics: true
+
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-database: always
+
+# Environment variable overrides:
+#   BATCH_THREADPOOL_COREPOOLSIZE=8
+#   BATCH_THREADPOOL_MAXPOOLSIZE=16
+#   BATCH_THREADPOOL_QUEUECAPACITY=500
+#   BATCH_PARTITIONING_CHUNKSIZE=1000
+#   BATCH_PARTITIONING_PAGESIZE=2000
+#   BATCH_PARTITIONING_GRIDSIZE=16
+#   BATCH_PARTITIONING_PARTITIONSIZE=5000
+#   BATCH_PARTITIONING_SKIPLIMIT=5000
+#   BATCH_RETRY_RETRYLIMIT=3
+#   BATCH_FEATURES_METRICSEXPORT=false
+#   SPRING_DATASOURCE_URL=jdbc:postgresql://...
+#   SPRING_DATASOURCE_USERNAME=...
+#   SPRING_DATASOURCE_PASSWORD=...
+batch:
+  thread-pool:
+    core-pool-size: 4
+    max-pool-size: 8
+    queue-capacity: 100
+  partitioning:
+    chunk-size: 500
+    page-size: 1000
+    grid-size: 8
+    partition-size: 1000
+    skip-limit: 1000
+  retry:
+    retry-limit: 2
+  features:
+    metrics-export: true
+
+logging:
+  level:
+    root: INFO
+    org.springframework.batch: DEBUG
+    com.example: DEBUG
+  structured:
+    format: json
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true

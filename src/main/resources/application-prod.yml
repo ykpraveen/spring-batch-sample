@@ -1,0 +1,29 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        generate_statistics: false
+
+logging:
+  level:
+    root: INFO
+    org.springframework.batch: INFO
+
+batch:
+  thread-pool:
+    core-pool-size: 8
+    max-pool-size: 16
+    queue-capacity: 500
+  partitioning:
+    chunk-size: 1000
+    page-size: 2000
+    grid-size: 16
+    partition-size: 5000
+    skip-limit: 5000
+  retry:
+    retry-limit: 3
